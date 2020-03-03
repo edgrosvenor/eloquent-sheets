@@ -100,7 +100,7 @@ class MakeSheetModelCommand extends Command
     {
         return '
         function onEdit(e){
-            if (SpreadsheetApp.getActiveSheet().getSheetId() == 688412530) {
+            if (SpreadsheetApp.getActiveSheet().getSheetId() == '.$this->sheetId.') {
                     UrlFetchApp.fetch("YOUR_WEBSITE'.$this->forgetUri.'");
                 }
             }
