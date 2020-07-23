@@ -32,7 +32,6 @@ class SheetModelTest extends TestCase
     private function clearCacheDirectory()
     {
         array_map('unlink', glob(config('sushi.cache-path').'/*'));
-        return;
     }
 
     /** @test */
