@@ -28,7 +28,7 @@ class SheetModelTest extends TestCase
     public function can_read_from_google_sheets()
     {
         File::cleanDirectory(config('sushi.cache-path'));
-        $this->assertFileNotExists('tests/cache/sushi-tests-models-test-model.sqlite');
+        $this->assertFileDoesNotExist('tests/cache/sushi-tests-models-test-model.sqlite');
         $sheet = new TestModel();
         $this->assertIsArray($sheet->getRows());
     }
@@ -78,7 +78,7 @@ class SheetModelTest extends TestCase
         $sheet = TestModel::find(1);
         $this->assertFileExists('tests/cache/sushi-tests-models-test-model.sqlite');
         $sheet->invalidateCache();
-        $this->assertFileNotExists('tests/cache/sushi-tests-models-test-model.sqlite');
+        $this->assertFileDoesNotExist('tests/cache/sushi-tests-models-test-model.sqlite');
         $sheet = TestModel::find(2);
         $this->assertEquals('Justine', $sheet->name);
     }
@@ -90,6 +90,6 @@ class SheetModelTest extends TestCase
         $this->assertFileExists('tests/cache/sushi-tests-models-test-model.sqlite');
         $response = $this->get('/eloquent_sheets_forget/'.$sheet->cacheName);
         $response->assertSuccessful();
-        $this->assertFileNotExists('tests/cache/sushi-tests-test-model.sqlite');
+        $this->assertFileDoesNotExist('tests/cache/sushi-tests-test-model.sqlite');
     }
 }
