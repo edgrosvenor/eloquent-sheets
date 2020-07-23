@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\File;
 use Tests\Models\DefineHeadersModel;
 use Tests\Models\InferredIdModel;
 use Tests\Models\TestModel;
@@ -21,7 +20,7 @@ class SheetModelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        config(['sushi.cache-path' => $this->cachePath = __DIR__ . '/cache']);
+        config(['sushi.cache-path' => $this->cachePath = __DIR__.'/cache']);
     }
 
     public function tearDown(): void
@@ -32,7 +31,7 @@ class SheetModelTest extends TestCase
 
     private function clearCacheDirectory()
     {
-        array_map('unlink', glob(config('sushi.cache-path') . '/*'));
+        array_map('unlink', glob(config('sushi.cache-path').'/*'));
         return;
     }
 
