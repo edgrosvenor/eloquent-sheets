@@ -21,13 +21,25 @@ class SheetModelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        config(['sushi.cache-path' => $this->cachePath = __DIR__.'/cache']);
+        config(['sushi.cache-path' => $this->cachePath = __DIR__ . '/cache']);
+    }
+
+    public function tearDown(): void
+    {
+        $this->clearCacheDirectory();
+        parent::tearDown();
+    }
+
+    private function clearCacheDirectory()
+    {
+        array_map('unlink', glob(config('sushi.cache-path') . '/*'));
+        return;
     }
 
     /** @test */
     public function can_read_from_google_sheets()
     {
-        File::cleanDirectory(config('sushi.cache-path'));
+        $this->clearCacheDirectory();
         $this->assertFileDoesNotExist('tests/cache/sushi-tests-models-test-model.sqlite');
         $sheet = new TestModel();
         $this->assertIsArray($sheet->getRows());
