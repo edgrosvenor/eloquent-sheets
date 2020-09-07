@@ -62,9 +62,6 @@ class SheetModel extends Model
         $rows = collect([]);
 
         $sheet->each(function ($row) use ($headers, $rows, &$inferId) {
-            if ($inferId) {
-                $row[] = $inferId++;
-            }
 
             // append empty cols inside the row to match the number of cols in header
             foreach ($headers as $index => $header) {
@@ -72,6 +69,11 @@ class SheetModel extends Model
                     $row[$index] = '';
                 }
             }
+
+            if ($inferId) {
+                $row[] = $inferId++;
+            }
+
 
             $rows->push($headers->combine($row));
         });
