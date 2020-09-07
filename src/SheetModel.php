@@ -41,10 +41,10 @@ class SheetModel extends Model
 
     public function invalidateCache()
     {
-        if (!file_exists($this->cacheDirectory . '/' . config('sushi.cache-prefix', 'sushi') . '-' . Str::kebab(str_replace('\\', '', static::class)) . '.sqlite')) {
+        if (!file_exists($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite')) {
             return;
         }
-        unlink($this->cacheDirectory . '/' . config('sushi.cache-prefix', 'sushi') . '-' . Str::kebab(str_replace('\\', '', static::class)) . '.sqlite');
+        unlink($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite');
     }
 
     public function loadFromSheet(): array
