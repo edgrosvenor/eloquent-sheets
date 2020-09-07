@@ -16,8 +16,6 @@ class ForgetSheet
             File::delete(storage_path('framework/cache/'.$id.'.sqlite'));
         }
 
-
-
         $this->triggerCallback($id);
 
         return response()->noContent();
@@ -25,13 +23,13 @@ class ForgetSheet
 
     protected function triggerCallback($id)
     {
-        $class = 'App\\' . Str::studly(str_replace('sushi-', '', $id));
+        $class = 'App\\'.Str::studly(str_replace('sushi-', '', $id));
         if (!class_exists($class)) {
             return;
         }
-        $model = new $class;
+        $model = new $class();
 
-        if(method_exists($model, 'onForget')) {
+        if (method_exists($model, 'onForget')) {
             $model->onForget();
         }
     }
