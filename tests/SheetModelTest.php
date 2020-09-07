@@ -49,7 +49,6 @@ class SheetModelTest extends TestCase
         $this->expectException('Google_Service_Exception');
         $sheet = BrokenModel::all();
         $this->assertFileDoesNotExist('tests/cache/sushi-tests-models-broken-model.sqlite');
-
     }
 
     /** @test */
