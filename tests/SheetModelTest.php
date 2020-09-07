@@ -20,7 +20,7 @@ class SheetModelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        config(['sushi.cache-path' => $this->cachePath = __DIR__.'/cache']);
+        config(['sushi.cache-path' => __DIR__.'/cache']);
     }
 
     public function tearDown(): void
@@ -32,6 +32,13 @@ class SheetModelTest extends TestCase
     private function clearCacheDirectory()
     {
         array_map('unlink', glob(config('sushi.cache-path').'/*'));
+    }
+
+    /** @test */
+    public function can_infer_id_from_row()
+    {
+        $sheet = InferredIdModel::all();
+        $this->assertEquals('[{"name":"Ed","email":"ed@gros.co","id":1},{"name":"Justine","email":"justine@gros.co","id":2},{"name":"Bob","email":"","id":3},{"name":"Daniel","email":"daniel@gros.co","id":4},{"name":"Milo","email":"milo@gros.co","id":5}]', $sheet->toJson());
     }
 
     /** @test */
@@ -65,13 +72,6 @@ class SheetModelTest extends TestCase
 
         $sheet = TestModel::where('name', 'Milo')->first();
         $this->assertEquals('Kid', $sheet->title);
-    }
-
-    /** @test */
-    public function can_infer_id_from_row()
-    {
-        $sheet = InferredIdModel::all();
-        $this->assertEquals('[{"name":"Ed","email":"ed@gros.co","id":1},{"name":"Justine","email":"justine@gros.co","id":2},{"name":"Daniel","email":"daniel@gros.co","id":3},{"name":"Milo","email":"milo@gros.co","id":4}]', $sheet->toJson());
     }
 
     /** @test */
