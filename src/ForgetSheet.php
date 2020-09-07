@@ -18,10 +18,10 @@ class ForgetSheet
 
     protected function triggerCallback($id)
     {
-        $class = 'App\\' . Str::studly(str_replace('sushi-', '', $id));
-        $model = new $class;
+        $class = 'App\\'.Str::studly(str_replace('sushi-', '', $id));
+        $model = new $class();
 
-        if(method_exists($model, 'onForget')) {
+        if (method_exists($model, 'onForget')) {
             $model->onForget();
         }
     }

@@ -63,7 +63,6 @@ class SheetModel extends Model
 
         $sheet->each(function ($row) use ($headers, $rows, &$inferId) {
 
-
             // append empty cols inside the row to match the number of cols in header
             foreach ($headers as $index => $header) {
                 if (!isset($row[$index])) {
