@@ -36,12 +36,12 @@ class SheetModel extends Model
 
     public function getRows()
     {
-        return ! empty($this->rows) ? $this->rows : $this->loadFromSheet();
+        return !empty($this->rows) ? $this->rows : $this->loadFromSheet();
     }
 
     public function invalidateCache()
     {
-        if (! file_exists($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite')) {
+        if (!file_exists($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite')) {
             return;
         }
         unlink($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite');
@@ -58,13 +58,13 @@ class SheetModel extends Model
 
         $sheet = $sheets->spreadsheet($this->spreadsheetId)->sheetById($this->sheetId)->get();
 
-        if (! $sheet instanceof Collection) {
+        if (!$sheet instanceof Collection) {
             throw new \Exception('We did not get what we expected from the Google sheet.');
         }
 
         $headers = is_array($this->headers) ? collect($this->headers) : collect($sheet->pull($this->headerRow - 1));
 
-        if (! $headers->contains($this->primaryKey)) {
+        if (!$headers->contains($this->primaryKey)) {
             $headers->push($this->primaryKey);
             $inferId = 1;
         }
@@ -101,6 +101,6 @@ class SheetModel extends Model
 
     public function getCacheName()
     {
-        return ! is_null($this->getConnection()) ? explode('.', basename($this->getConnection()->getDatabaseName()))[0] : null;
+        return !is_null($this->getConnection()) ? explode('.', basename($this->getConnection()->getDatabaseName()))[0] : null;
     }
 }

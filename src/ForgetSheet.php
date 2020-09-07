@@ -24,7 +24,7 @@ class ForgetSheet
     protected function triggerCallback($id)
     {
         $class = 'App\\'.Str::studly(str_replace('sushi-', '', $id));
-        if (! class_exists($class)) {
+        if (!class_exists($class)) {
             return;
         }
         $model = new $class();
