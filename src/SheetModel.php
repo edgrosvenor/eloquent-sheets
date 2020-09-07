@@ -74,7 +74,6 @@ class SheetModel extends Model
                 $row[] = $inferId++;
             }
 
-
             $rows->push($headers->combine($row));
         });
 
