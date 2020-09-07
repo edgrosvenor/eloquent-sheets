@@ -58,8 +58,7 @@ class SheetModel extends Model
 
         try {
             $sheet = $sheets->spreadsheet($this->spreadsheetId)->sheetById($this->sheetId)->get();
-        } catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->invalidateCache();
             throw $e;
         }
