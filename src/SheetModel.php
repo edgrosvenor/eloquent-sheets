@@ -47,7 +47,7 @@ class SheetModel extends Model
         unlink($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite');
     }
 
-    public function loadFromSheet(): array
+    public function loadFromSheet(): ?array
     {
         $sheets = new Sheets();
         $client = new Google_Client(config('google'));
@@ -56,10 +56,12 @@ class SheetModel extends Model
         $sheets->setService($service);
         $inferId = 0;
 
-        $sheet = $sheets->spreadsheet($this->spreadsheetId)->sheetById($this->sheetId)->get();
-
-        if (! $sheet instanceof Collection) {
-            throw new \Exception('We did not get what we expected from the Google sheet.');
+        try {
+            $sheet = $sheets->spreadsheet($this->spreadsheetId)->sheetById($this->sheetId)->get();
+        } catch(\Exception $e)
+        {
+            $this->invalidateCache();
+            throw $e;
         }
 
         $headers = is_array($this->headers) ? collect($this->headers) : collect($sheet->pull($this->headerRow - 1));
