@@ -5,7 +5,6 @@ namespace Grosv\EloquentSheets;
 use Google_Client;
 use Google_Service_Sheets;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Revolution\Google\Sheets\Sheets;
