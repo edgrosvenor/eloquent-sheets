@@ -41,10 +41,10 @@ class SheetModel extends Model
 
     public function invalidateCache()
     {
-        if (!file_exists($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite')) {
+        if (!file_exists($this->cacheDirectory . '/' . config('sushi.cache-prefix', 'sushi') . '-' . Str::kebab(str_replace('\\', '', static::class)) . '.sqlite')) {
             return;
         }
-        unlink($this->cacheDirectory.'/'.config('sushi.cache-prefix', 'sushi').'-'.Str::kebab(str_replace('\\', '', static::class)).'.sqlite');
+        unlink($this->cacheDirectory . '/' . config('sushi.cache-prefix', 'sushi') . '-' . Str::kebab(str_replace('\\', '', static::class)) . '.sqlite');
     }
 
     public function loadFromSheet(): array
@@ -58,7 +58,7 @@ class SheetModel extends Model
 
         $sheet = $sheets->spreadsheet($this->spreadsheetId)->sheetById($this->sheetId)->get();
 
-        if (! $sheet instanceof Collection) {
+        if (!$sheet instanceof Collection) {
             throw new \Exception('We did not get what we expected from the Google sheet.');
         }
 
@@ -72,10 +72,7 @@ class SheetModel extends Model
         $rows = collect([]);
 
         $sheet->each(function ($row) use ($headers, $rows, &$inferId) {
-
             $record = [];
-
-
 
             // append empty cols inside the row to match the number of cols in header
             foreach ($headers as $index => $header) {
@@ -86,9 +83,7 @@ class SheetModel extends Model
                 $record[$this->primaryKey] = $inferId++;
             }
 
-
             $rows->push($headers->combine($record));
-
         });
 
         return $rows->toArray();
@@ -108,5 +103,4 @@ class SheetModel extends Model
     {
         return !is_null($this->getConnection()) ? explode('.', basename($this->getConnection()->getDatabaseName()))[0] : null;
     }
-
 }

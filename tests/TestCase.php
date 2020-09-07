@@ -30,6 +30,6 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('google.application_name', 'laravel-package');
         // Paste any valid Google Sheets API key (server key) into ../credentials/key.txt to access the test spreadsheet
         // The credentials directory is not tracked in the git repository
-        $app['config']->set('google.developer_key', file_get_contents(__DIR__.'/../credentials/key.txt'));
+        $app['config']->set('google.developer_key', file_get_contents(__DIR__ . '/../credentials/key.txt'));
     }
 }

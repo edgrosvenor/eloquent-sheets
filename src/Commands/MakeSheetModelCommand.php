@@ -33,27 +33,27 @@ class MakeSheetModelCommand extends Command
     {
         $this->modelPath = $this->ask('Where would you like to create your sheet model?', config('eloquent-sheets.app_path'));
         $this->modelName = $this->ask('What do you want the class name of your new model to be?');
-        $this->sheetUrl = $this->ask('Copy and paste the full URL of your Google Sheet from your browser address bar:');
+        $this->sheetUrl  = $this->ask('Copy and paste the full URL of your Google Sheet from your browser address bar:');
         $this->parseSheetUrl();
         $this->stub = $this->getStub();
         $this->modelPathToNamespace();
         if (is_null($this->modelNamespace)) {
             $this->modelNamespace = $this->ask('We were unable to determine the namespace you want to use for your model. Please provide it:');
         }
-        $this->fullyQualfiedModelName = $this->modelNamespace.'\\'.$this->modelName;
-        $this->modelPath .= '/'.$this->modelName.'.php';
+        $this->fullyQualfiedModelName = $this->modelNamespace . '\\' . $this->modelName;
+        $this->modelPath .= '/' . $this->modelName . '.php';
         $this->calculateForgetUri();
 
-        if (!$this->confirm('Ready to write model '.$this->fullyQualfiedModelName.' at '.$this->modelPath.'?')) {
+        if (!$this->confirm('Ready to write model ' . $this->fullyQualfiedModelName . ' at ' . $this->modelPath . '?')) {
             return;
         }
         File::put($this->modelPath, $this->makeSubstitutions());
-        $this->line("Model created! Here is a Google Apps script macro that will invalidate the cache whenver you edit your sheet:\n\n".$this->generateGoogleScript());
+        $this->line("Model created! Here is a Google Apps script macro that will invalidate the cache whenver you edit your sheet:\n\n" . $this->generateGoogleScript());
     }
 
     protected function getStub()
     {
-        return File::get(__DIR__.'/SheetModel.stub');
+        return File::get(__DIR__ . '/SheetModel.stub');
     }
 
     protected function makeSubstitutions()
@@ -75,7 +75,7 @@ class MakeSheetModelCommand extends Command
         $diff = str_replace(app_path(), '', $this->modelPath);
         if ($diff != $this->modelPath) {
             $studlyArray = [];
-            $diffArray = explode('\\', $diff);
+            $diffArray   = explode('\\', $diff);
             foreach ($diffArray as $part) {
                 array_push($studlyArray, Str::studly($part));
             }
@@ -87,22 +87,22 @@ class MakeSheetModelCommand extends Command
 
     protected function parseSheetUrl()
     {
-        $url = str_replace('https://docs.google.com/spreadsheets/d/', '', $this->sheetUrl);
-        $this->sheetId = explode('gid=', $url)[1];
+        $url                 = str_replace('https://docs.google.com/spreadsheets/d/', '', $this->sheetUrl);
+        $this->sheetId       = explode('gid=', $url)[1];
         $this->spreadsheetId = explode('/', $url)[0];
     }
 
     protected function calculateForgetUri()
     {
-        $this->forgetUri = '/eloquent_sheets_forget/sushi-'.Str::kebab(stripslashes($this->fullyQualfiedModelName));
+        $this->forgetUri = '/eloquent_sheets_forget/sushi-' . Str::kebab(stripslashes($this->fullyQualfiedModelName));
     }
 
     protected function generateGoogleScript()
     {
         return '
         function onEdit(e){
-            if (SpreadsheetApp.getActiveSheet().getSheetId() == '.$this->sheetId.') {
-                    UrlFetchApp.fetch("YOUR_WEBSITE'.$this->forgetUri.'");
+            if (SpreadsheetApp.getActiveSheet().getSheetId() == ' . $this->sheetId . ') {
+                    UrlFetchApp.fetch("YOUR_WEBSITE' . $this->forgetUri . '");
                 }
             }
         ';

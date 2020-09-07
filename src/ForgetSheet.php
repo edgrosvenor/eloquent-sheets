@@ -9,14 +9,12 @@ class ForgetSheet
 {
     public function execute($id)
     {
-        if (File::isFile(config('sushi.cache-path').'/'.$id.'.sqlite')) {
-            File::delete(config('sushi.cache-path').'/'.$id.'.sqlite');
+        if (File::isFile(config('sushi.cache-path') . '/' . $id . '.sqlite')) {
+            File::delete(config('sushi.cache-path') . '/' . $id . '.sqlite');
         }
-        if (File::isFile(storage_path('framework/cache/'.$id.'.sqlite'))) {
-            File::delete(storage_path('framework/cache/'.$id.'.sqlite'));
+        if (File::isFile(storage_path('framework/cache/' . $id . '.sqlite'))) {
+            File::delete(storage_path('framework/cache/' . $id . '.sqlite'));
         }
-
-
 
         $this->triggerCallback($id);
 
@@ -29,9 +27,9 @@ class ForgetSheet
         if (!class_exists($class)) {
             return;
         }
-        $model = new $class;
+        $model = new $class();
 
-        if(method_exists($model, 'onForget')) {
+        if (method_exists($model, 'onForget')) {
             $model->onForget();
         }
     }

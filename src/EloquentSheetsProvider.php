@@ -10,7 +10,7 @@ class EloquentSheetsProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->commands([
             MakeSheetModelCommand::class,
         ]);
@@ -19,6 +19,6 @@ class EloquentSheetsProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'eloquent-sheets');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'eloquent-sheets');
     }
 }

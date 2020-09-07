@@ -20,7 +20,7 @@ class SheetModelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        config(['sushi.cache-path' => __DIR__.'/cache']);
+        config(['sushi.cache-path' => __DIR__ . '/cache']);
     }
 
     public function tearDown(): void
@@ -31,7 +31,7 @@ class SheetModelTest extends TestCase
 
     private function clearCacheDirectory()
     {
-        array_map('unlink', glob(config('sushi.cache-path').'/*'));
+        array_map('unlink', glob(config('sushi.cache-path') . '/*'));
     }
 
     /** @test */
@@ -98,7 +98,7 @@ class SheetModelTest extends TestCase
     {
         $sheet = TestModel::find(1);
         $this->assertFileExists('tests/cache/sushi-tests-models-test-model.sqlite');
-        $response = $this->get('/eloquent_sheets_forget/'.$sheet->cacheName);
+        $response = $this->get('/eloquent_sheets_forget/' . $sheet->cacheName);
         $response->assertSuccessful();
         $this->assertFileDoesNotExist('tests/cache/sushi-tests-test-model.sqlite');
     }
